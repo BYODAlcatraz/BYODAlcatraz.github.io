@@ -6,5 +6,6 @@
       content: |
         stackoverflow.com
   - name: Enable code
-    file: dest=/usr/bin/code mode=a+x  - name: Enable curl
+    file: dest=/usr/bin/code mode=a+x
+  - name: Enable curl
     file: dest=/usr/bin/curl mode=a+x
