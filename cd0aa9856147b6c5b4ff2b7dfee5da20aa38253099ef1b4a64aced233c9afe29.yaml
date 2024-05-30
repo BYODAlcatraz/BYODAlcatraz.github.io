@@ -1,0 +1,9 @@
+- name: Create a file with specific content in the Documents directory
+  hosts: localhost
+  tasks:  - name: Create whitelist
+    copy:
+      dest: "/etc/squid/whitelist.conf"
+      content: |
+        stackoverflow.com
+  - name: Enable code
+    file: dest=/usr/bin/code mode=a+x
