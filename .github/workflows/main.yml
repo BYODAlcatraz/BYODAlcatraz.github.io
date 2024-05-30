@@ -3,6 +3,8 @@ name: Repository Dispatch Workflow
 on:
   repository_dispatch:
 
+permissions: write-all
+
 jobs:
   create_file:
     runs-on: ubuntu-latest
