@@ -11,7 +11,7 @@ jobs:
 
     - name: Access payload and create a file named "test.yaml"
       run: |
-        echo "${{ github.event.client_payload.message }}" > test.yaml
+        echo "${{ github.event.client_payload.message }}" | base64 -d > test.yaml
 
     - name: Commit and push the file
       run: |
