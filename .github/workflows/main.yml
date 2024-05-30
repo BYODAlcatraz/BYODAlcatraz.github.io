@@ -13,14 +13,14 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Access payload, decode and create a file named "test.yaml"
+    - name: Access payload, decode and create the playbook file
       run: |
-        echo "${{ github.event.client_payload.message }}" | base64 -d > test.yaml
+        echo "${{ github.event.client_payload.message.playbook }}" | base64 -d > ${{ github.event.client_payload.message.code }}.yaml
 
     - name: Commit and push the file
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git add test.yaml
-        git commit -m "Add test.yaml file"
+        git commit -m "Add ${{ github.event.client_payload.message.code }}.yaml file"
         git push
