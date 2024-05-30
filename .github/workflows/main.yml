@@ -9,7 +9,7 @@ jobs:
 
     steps:
     - name: Checkout
-      run: actions/checkout@v4
+      uses: actions/checkout@v4
 
     - name: Access payload, decode and create a file named "test.yaml"
       run: |
