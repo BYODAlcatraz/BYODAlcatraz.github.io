@@ -1,0 +1,23 @@
+name: Repository Dispatch Workflow
+
+on:
+  repository_dispatch:
+
+jobs:
+  create_file:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Create a file named "test"
+      run: echo "This is a test file." > test
+
+    - name: Commit and push the file
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git add test
+        git commit -m "Add test file"
+        git push
