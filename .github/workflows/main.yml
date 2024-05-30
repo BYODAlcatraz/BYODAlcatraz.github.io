@@ -8,8 +8,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Checkout
+      run: actions/checkout@v4
 
-    - name: Access payload and create a file named "test.yaml"
+    - name: Access payload, decode and create a file named "test.yaml"
       run: |
         echo "${{ github.event.client_payload.message }}" | base64 -d > test.yaml
 
