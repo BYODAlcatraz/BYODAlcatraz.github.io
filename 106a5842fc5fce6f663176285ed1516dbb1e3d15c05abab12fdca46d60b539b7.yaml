@@ -15,13 +15,13 @@
       set_fact:
         current_utc_time: "{{ (time_response.content | from_json).utc_datetime }}"
 
-    - name: Convert enddate_time to timestamp
+    - name: Convert enddate_time to datetime
       set_fact:
-        enddate_time_ts: "{{ enddate_time | to_datetime('%Y-%m-%dT%H:%M:%S.%f%z').timestamp() }}"
+        enddate_time_ts: "{{ enddate_time | to_datetime('%Y-%m-%dT%H:%M:%S.%f%z')}}"
 
-    - name: Convert current_utc_time to timestamp
+    - name: Convert current_utc_time to dateime
       set_fact:
-        current_utc_time_ts: "{{ current_utc_time | to_datetime('%Y-%m-%dT%H:%M:%S.%f%z').timestamp() }}"
+        current_utc_time_ts: "{{ current_utc_time | to_datetime('%Y-%m-%dT%H:%M:%S.%f%z')}}"
 
     - name: End playbook if current time is after the end time
       meta: end_play
