@@ -1,0 +1,46 @@
+# Code: wikiandcurl5
+- name: Create a file with specific content in the Documents directory
+  hosts: localhost
+  vars:
+    enddate_time: "2024-07-06T09:11:00.000Z"
+
+  tasks:
+    - name: Get current UTC time
+      uri:
+        url: "http://worldtimeapi.org/api/timezone/etc/utc"
+        method: GET
+        return_content: yes
+      register: time_response
+
+    - name: Parse current UTC time
+      set_fact:
+        current_utc_time: "{{ (time_response.content | from_json).utc_datetime }}"
+
+    - name: Convert enddate_time to timestamp
+      set_fact:
+        enddate_time_ts: "{{ enddate_time | to_datetime('%Y-%m-%dT%H:%M:%S.%f%z') }}"
+
+    - name: Convert current_utc_time to timestamp
+      set_fact:
+        current_utc_time_ts: "{{ current_utc_time | to_datetime('%Y-%m-%dT%H:%M:%S.%f%z') }}"
+
+    - name: End playbook with an error if current time is after the end time
+      fail:
+        msg: "The current time ({{ current_utc_time_ts }}) is after the end time ({{ enddate_time_ts }}). Ending playbook."
+      when: current_utc_time_ts > enddate_time_ts
+  
+    - name: Create whitelist
+      copy:
+        dest: "/etc/squid/whitelist.txt"
+        content: |
+         .wikipedia.org
+         .kuleuven.be
+
+    - name: Enable curl
+      file: 
+        dest: /usr/bin/curl
+        mode: a+x
+
+    - name: Reconfigure squid
+      command: squid -k reconfigure
+      become: yes
